@@ -1,0 +1,19 @@
+{
+  "name": "malakaw.github.io",
+  "version": "1.0.0",
+  "description": "123 456",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malakaw/malakaw.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/malakaw/malakaw.github.io/issues"
+  },
+  "homepage": "https://github.com/malakaw/malakaw.github.io#readme"
+}
