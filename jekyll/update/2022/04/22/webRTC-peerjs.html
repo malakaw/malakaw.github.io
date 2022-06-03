@@ -55,12 +55,29 @@
 
 <h2 id="ice概述">ICE概述</h2>
 
-<p>​		ICE全称Interactive Connectivity Establishment：交互式连通建立方式。</p>
+<p>​		- ICE全称Interactive Connectivity Establishment：交互式连通建立方式。</p>
+<ul>
+  <li>ICE参照RFC5245建议实现，是一组基于offer/answer模式解决NAT穿越的协议集合。</li>
+  <li>它综合利用现有的STUN，TURN等协议，以更有效的方式来建立会话。</li>
+  <li>
+    <p>客户端侧无需关心所处网络的位置以及NAT类型，并且能够动态的发现最优的传输路径。</p>
+  </li>
+  <li>host 类型,即本机内网的 IP 和端口</li>
+  <li>srflx 类型,即本机 NAT 映射后的外网的 IP 和端口</li>
+  <li>relay 类型,即中继服务器的 IP 和端口</li>
+</ul>
 
-<p>ICE参照RFC5245建议实现，是一组基于offer/answer模式解决NAT穿越的协议集合。
-它综合利用现有的STUN，TURN等协议，以更有效的方式来建立会话。</p>
+<h2 id="步骤">步骤</h2>
 
-<p>客户端侧无需关心所处网络的位置以及NAT类型，并且能够动态的发现最优的传输路径。</p>
+<p>分为三步：
+   1.收集candidates</p>
+
+<p>获取本机host address
+   从STUN服务器获取srvflx address
+   从TURN服务器获取relay address</p>
+
+<h2 id="参考">参考</h2>
+<p>https://blog.csdn.net/mo4776/article/details/116144513</p>
 
   </div><a class="u-url" href="/jekyll/update/2022/04/22/webRTC-peerjs.html" hidden></a>
 </article>
@@ -76,7 +93,7 @@
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">Franco blog</li><li><a class="u-email" href="mailto:ddd@example.com">ddd@example.com</a></li></ul>
+          <li class="p-name">Franco blog</li><li><a class="u-email" href="mailto:wengxiaojun623@163.com">wengxiaojun623@163.com</a></li></ul>
       </div>
 
       <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/jekyll"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jekyll</span></a></li><li><a href="https://www.twitter.com/jekyllrb"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">jekyllrb</span></a></li></ul>

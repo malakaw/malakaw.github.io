@@ -1,4 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-04-22T13:01:04+08:00</updated><id>/feed.xml</id><title type="html">Franco blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">webRTC和peerjs实现</title><link href="/jekyll/update/2022/04/22/webRTC-peerjs.html" rel="alternate" type="text/html" title="webRTC和peerjs实现" /><published>2022-04-22T11:08:30+08:00</published><updated>2022-04-22T11:08:30+08:00</updated><id>/jekyll/update/2022/04/22/webRTC-peerjs</id><content type="html" xml:base="/jekyll/update/2022/04/22/webRTC-peerjs.html"><![CDATA[<h1 id="webrtc和peerjs实现">webRTC和peerjs实现</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-06-03T16:26:23+08:00</updated><id>/feed.xml</id><title type="html">Franco blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">rust的map count使用笔记</title><link href="/rust/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html" rel="alternate" type="text/html" title="rust的map count使用笔记" /><published>2022-06-03T11:08:30+08:00</published><updated>2022-06-03T11:08:30+08:00</updated><id>/rust/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0</id><content type="html" xml:base="/rust/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html"><![CDATA[<h1 id="rust的map-count使用笔记">rust的map count使用笔记</h1>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```rust
+	fn main() {
+        use std::collections::HashMap;
+     
+        let text = "hello world wonderful world";
+     
+        let mut map = HashMap::new();
+     
+        for word in text.split_whitespace() {
+            let count = map.entry(word).or_insert(0);
+            *count += 1;
+        }
+     
+        println!("{:?}", map);
+    }
+
+``` 打印输出	
+```rust
+{"world": 2, "wonderful": 1, "hello": 1}
+```
+</code></pre></div></div>
+
+<p>这里按照我们一般的编程习惯，没看到value从count赋值；原理是这样的，or_insert 方法返回这个键的值的一个可变引用（&amp;mut V）, count 获取到这个读写V, 整个map就把count包进来了，count有内存句柄了（所有权了），那么他就可以加1了，等下一个V又把内存句柄（所有权）给他，他就可以处理下一个加减了。</p>]]></content><author><name></name></author><category term="rust" /><summary type="html"><![CDATA[rust的map count使用笔记]]></summary></entry><entry><title type="html">webRTC和peerjs实现</title><link href="/jekyll/update/2022/04/22/webRTC-peerjs.html" rel="alternate" type="text/html" title="webRTC和peerjs实现" /><published>2022-04-22T11:08:30+08:00</published><updated>2022-04-22T11:08:30+08:00</updated><id>/jekyll/update/2022/04/22/webRTC-peerjs</id><content type="html" xml:base="/jekyll/update/2022/04/22/webRTC-peerjs.html"><![CDATA[<h1 id="webrtc和peerjs实现">webRTC和peerjs实现</h1>
 
 <h2 id="webrtc">webRTC</h2>
 
@@ -6,12 +30,29 @@
 
 <h2 id="ice概述">ICE概述</h2>
 
-<p>​		ICE全称Interactive Connectivity Establishment：交互式连通建立方式。</p>
+<p>​		- ICE全称Interactive Connectivity Establishment：交互式连通建立方式。</p>
+<ul>
+  <li>ICE参照RFC5245建议实现，是一组基于offer/answer模式解决NAT穿越的协议集合。</li>
+  <li>它综合利用现有的STUN，TURN等协议，以更有效的方式来建立会话。</li>
+  <li>
+    <p>客户端侧无需关心所处网络的位置以及NAT类型，并且能够动态的发现最优的传输路径。</p>
+  </li>
+  <li>host 类型,即本机内网的 IP 和端口</li>
+  <li>srflx 类型,即本机 NAT 映射后的外网的 IP 和端口</li>
+  <li>relay 类型,即中继服务器的 IP 和端口</li>
+</ul>
 
-<p>ICE参照RFC5245建议实现，是一组基于offer/answer模式解决NAT穿越的协议集合。
-它综合利用现有的STUN，TURN等协议，以更有效的方式来建立会话。</p>
+<h2 id="步骤">步骤</h2>
 
-<p>客户端侧无需关心所处网络的位置以及NAT类型，并且能够动态的发现最优的传输路径。</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[webRTC和peerjs实现]]></summary></entry><entry><title type="html">cardano</title><link href="/jekyll/update/2022/04/21/cardano-cip30.html" rel="alternate" type="text/html" title="cardano" /><published>2022-04-21T14:08:30+08:00</published><updated>2022-04-21T14:08:30+08:00</updated><id>/jekyll/update/2022/04/21/cardano-cip30</id><content type="html" xml:base="/jekyll/update/2022/04/21/cardano-cip30.html"><![CDATA[<p>cardano cip-30 signData</p>
+<p>分为三步：
+   1.收集candidates</p>
+
+<p>获取本机host address
+   从STUN服务器获取srvflx address
+   从TURN服务器获取relay address</p>
+
+<h2 id="参考">参考</h2>
+<p>https://blog.csdn.net/mo4776/article/details/116144513</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[webRTC和peerjs实现]]></summary></entry><entry><title type="html">cardano</title><link href="/jekyll/update/2022/04/21/cardano-cip30.html" rel="alternate" type="text/html" title="cardano" /><published>2022-04-21T14:08:30+08:00</published><updated>2022-04-21T14:08:30+08:00</updated><id>/jekyll/update/2022/04/21/cardano-cip30</id><content type="html" xml:base="/jekyll/update/2022/04/21/cardano-cip30.html"><![CDATA[<p>cardano cip-30 signData</p>
 
 <p>web3中用户与dapp打通的一个重要提案，在Cardano公链中的cip30,cip:Cardano Improvement Proposals .在深入介绍之前需要明白几个概念，可以更好理解后面的介绍。</p>
 
