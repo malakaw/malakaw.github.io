@@ -3,21 +3,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>webRTC和peerjs实现 | Franco blog</title>
+<title>rust的map count使用笔记 | Franco blog</title>
 <meta name="generator" content="Jekyll v4.2.2" />
-<meta property="og:title" content="webRTC和peerjs实现" />
+<meta property="og:title" content="rust的map count使用笔记" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="webRTC和peerjs实现" />
-<meta property="og:description" content="webRTC和peerjs实现" />
-<link rel="canonical" href="/jekyll/update/2022/04/22/webRTC-peerjs.html" />
-<meta property="og:url" content="/jekyll/update/2022/04/22/webRTC-peerjs.html" />
+<meta name="description" content="rust的map count使用笔记" />
+<meta property="og:description" content="rust的map count使用笔记" />
+<link rel="canonical" href="/rust/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" />
+<meta property="og:url" content="/rust/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" />
 <meta property="og:site_name" content="Franco blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2022-04-22T11:08:30+08:00" />
+<meta property="article:published_time" content="2022-06-03T11:08:30+08:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="webRTC和peerjs实现" />
+<meta property="twitter:title" content="rust的map count使用笔记" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-04-22T11:08:30+08:00","datePublished":"2022-04-22T11:08:30+08:00","description":"webRTC和peerjs实现","headline":"webRTC和peerjs实现","mainEntityOfPage":{"@type":"WebPage","@id":"/jekyll/update/2022/04/22/webRTC-peerjs.html"},"url":"/jekyll/update/2022/04/22/webRTC-peerjs.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-06-03T11:08:30+08:00","datePublished":"2022-06-03T11:08:30+08:00","description":"rust的map count使用笔记","headline":"rust的map count使用笔记","mainEntityOfPage":{"@type":"WebPage","@id":"/rust/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"},"url":"/rust/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Franco blog" /></head>
 <body><header class="site-header" role="banner">
@@ -40,46 +40,39 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">webRTC和peerjs实现</h1>
+    <h1 class="post-title p-name" itemprop="name headline">rust的map count使用笔记</h1>
     <p class="post-meta">
-      <time class="dt-published" datetime="2022-04-22T11:08:30+08:00" itemprop="datePublished">Apr 22, 2022
+      <time class="dt-published" datetime="2022-06-03T11:08:30+08:00" itemprop="datePublished">Jun 3, 2022
       </time></p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <h1 id="webrtc和peerjs实现">webRTC和peerjs实现</h1>
+    <h1 id="rust的map-count使用笔记">rust的map count使用笔记</h1>
 
-<h2 id="webrtc">webRTC</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fn main() {
+        use std::collections::HashMap;
+     
+        let text = "hello world wonderful world";
+     
+        let mut map = HashMap::new();
+     
+        for word in text.split_whitespace() {
+            let count = map.entry(word).or_insert(0);
+            *count += 1;
+        }
+     
+        println!("{:?}", map);
+}
+</code></pre></div></div>
 
-<p>webrtc的提供音视频解决方案是针对P2P的 场景，如果在实际的应用中直接通过P2P来互通，首先NAT穿越就很麻烦，如果NAT场景比较复杂，整个互通流程就会变长，直接的影响就是首屏会出来的慢。所以一般的会有一个webrtc接入服务来实现对web的接入，第一个是解决NAT穿越的问题，第二个是实现与具体的音视频业务的结合。</p>
+<p>打印输出</p>
 
-<h2 id="ice概述">ICE概述</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"world": 2, "wonderful": 1, "hello": 1}
+</code></pre></div></div>
 
-<p>​		- ICE全称Interactive Connectivity Establishment：交互式连通建立方式。</p>
-<ul>
-  <li>ICE参照RFC5245建议实现，是一组基于offer/answer模式解决NAT穿越的协议集合。</li>
-  <li>它综合利用现有的STUN，TURN等协议，以更有效的方式来建立会话。</li>
-  <li>
-    <p>客户端侧无需关心所处网络的位置以及NAT类型，并且能够动态的发现最优的传输路径。</p>
-  </li>
-  <li>host 类型,即本机内网的 IP 和端口</li>
-  <li>srflx 类型,即本机 NAT 映射后的外网的 IP 和端口</li>
-  <li>relay 类型,即中继服务器的 IP 和端口</li>
-</ul>
+<p>这里按照我们一般的编程习惯，没看到value从count赋值；原理是这样的，or_insert 方法返回这个键的值的一个可变引用（&amp;mut V）, count 获取到这个读写V, 整个map就把count包进来了，count有内存句柄了（所有权了），那么他就可以加1了，等下一个V又把内存句柄（所有权）给他，他就可以处理下一个加减了。</p>
 
-<h2 id="步骤">步骤</h2>
-
-<p>分为三步：
-   1.收集candidates</p>
-
-<p>获取本机host address
-   从STUN服务器获取srvflx address
-   从TURN服务器获取relay address</p>
-
-<h2 id="参考">参考</h2>
-<p>https://blog.csdn.net/mo4776/article/details/116144513</p>
-
-  </div><a class="u-url" href="/jekyll/update/2022/04/22/webRTC-peerjs.html" hidden></a>
+  </div><a class="u-url" href="/rust/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" hidden></a>
 </article>
 
       </div>

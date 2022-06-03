@@ -3,21 +3,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>rust的map count使用笔记 | Franco blog</title>
+<title>cardano | Franco blog</title>
 <meta name="generator" content="Jekyll v4.2.2" />
-<meta property="og:title" content="rust的map count使用笔记" />
+<meta property="og:title" content="cardano" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="rust的map count使用笔记" />
-<meta property="og:description" content="rust的map count使用笔记" />
-<link rel="canonical" href="/jekyll/update/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html" />
-<meta property="og:url" content="/jekyll/update/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html" />
+<meta name="description" content="cardano cip-30 signData" />
+<meta property="og:description" content="cardano cip-30 signData" />
+<link rel="canonical" href="/jekyll/update/cardano-cip30/" />
+<meta property="og:url" content="/jekyll/update/cardano-cip30/" />
 <meta property="og:site_name" content="Franco blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2022-06-03T11:08:30+08:00" />
+<meta property="article:published_time" content="2022-04-21T14:08:30+08:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="rust的map count使用笔记" />
+<meta property="twitter:title" content="cardano" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-06-03T11:08:30+08:00","datePublished":"2022-06-03T11:08:30+08:00","description":"rust的map count使用笔记","headline":"rust的map count使用笔记","mainEntityOfPage":{"@type":"WebPage","@id":"/jekyll/update/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html"},"url":"/jekyll/update/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-04-21T14:08:30+08:00","datePublished":"2022-04-21T14:08:30+08:00","description":"cardano cip-30 signData","headline":"cardano","mainEntityOfPage":{"@type":"WebPage","@id":"/jekyll/update/cardano-cip30/"},"url":"/jekyll/update/cardano-cip30/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Franco blog" /></head>
 <body><header class="site-header" role="banner">
@@ -40,39 +40,37 @@
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">rust的map count使用笔记</h1>
+    <h1 class="post-title p-name" itemprop="name headline">cardano</h1>
     <p class="post-meta">
-      <time class="dt-published" datetime="2022-06-03T11:08:30+08:00" itemprop="datePublished">Jun 3, 2022
+      <time class="dt-published" datetime="2022-04-21T14:08:30+08:00" itemprop="datePublished">Apr 21, 2022
       </time></p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <h1 id="rust的map-count使用笔记">rust的map count使用笔记</h1>
+    <p>cardano cip-30 signData</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fn main() {
-        use std::collections::HashMap;
-     
-        let text = "hello world wonderful world";
-     
-        let mut map = HashMap::new();
-     
-        for word in text.split_whitespace() {
-            let count = map.entry(word).or_insert(0);
-            *count += 1;
-        }
-     
-        println!("{:?}", map);
-}
-</code></pre></div></div>
+<p>web3中用户与dapp打通的一个重要提案，在Cardano公链中的cip30,cip:Cardano Improvement Proposals .在深入介绍之前需要明白几个概念，可以更好理解后面的介绍。</p>
 
-<p>打印输出</p>
+<h1 id="1-ed25519">1. ed25519</h1>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"world": 2, "wonderful": 1, "hello": 1}
-</code></pre></div></div>
+<p>ed25519 是基于Edwards曲线的数字签名算法（EdDSA），结合SHA-512/256哈希算法，采用扭曲爱德华曲线.</p>
 
-<p>这里按照我们一般的编程习惯，没看到value从count赋值；原理是这样的，or_insert 方法返回这个键的值的一个可变引用（&amp;mut V）, count 获取到这个读写V, 整个map就把count包进来了，count有内存句柄了（所有权了），那么他就可以加1了，等下一个V又把内存句柄（所有权）给他，他就可以处理下一个加减了。</p>
+<p>在cip30 的signData中用于签名用。在signData后返回的cose,Object Signing and Encryption (COSE)中包含。</p>
 
-  </div><a class="u-url" href="/jekyll/update/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html" hidden></a>
+<p>签名的CBOR（Concise Binary Object Representation）返回数据结构</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="s2">```
+COSE_Sign1 = [
+    Headers,
+    payload : bstr / nil,
+    signature : bstr
+]
+```</span></code></pre></figure>
+
+<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>
+
+
+  </div><a class="u-url" href="/jekyll/update/cardano-cip30/" hidden></a>
 </article>
 
       </div>
