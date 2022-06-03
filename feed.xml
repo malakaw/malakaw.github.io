@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-06-03T16:35:10+08:00</updated><id>/feed.xml</id><title type="html">Franco blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">rust的map count使用笔记</title><link href="/jekyll/update/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html" rel="alternate" type="text/html" title="rust的map count使用笔记" /><published>2022-06-03T11:08:30+08:00</published><updated>2022-06-03T11:08:30+08:00</updated><id>/jekyll/update/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0</id><content type="html" xml:base="/jekyll/update/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html"><![CDATA[<h1 id="rust的map-count使用笔记">rust的map count使用笔记</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-06-03T16:36:01+08:00</updated><id>/feed.xml</id><title type="html">Franco blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">rust的map count使用笔记</title><link href="/jekyll/update/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html" rel="alternate" type="text/html" title="rust的map count使用笔记" /><published>2022-06-03T11:08:30+08:00</published><updated>2022-06-03T11:08:30+08:00</updated><id>/jekyll/update/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0</id><content type="html" xml:base="/jekyll/update/2022/06/03/rust-count-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html"><![CDATA[<h1 id="rust的map-count使用笔记">rust的map count使用笔记</h1>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>		fn main() {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fn main() {
             use std::collections::HashMap;
          
             let text = "hello world wonderful world";
@@ -13,13 +13,13 @@
             }
          
             println!("{:?}", map);
-        }
+}
 
 </code></pre></div></div>
 
 <p>打印输出</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	{"world": 2, "wonderful": 1, "hello": 1}
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"world": 2, "wonderful": 1, "hello": 1}
 </code></pre></div></div>
 
 <p>这里按照我们一般的编程习惯，没看到value从count赋值；原理是这样的，or_insert 方法返回这个键的值的一个可变引用（&amp;mut V）, count 获取到这个读写V, 整个map就把count包进来了，count有内存句柄了（所有权了），那么他就可以加1了，等下一个V又把内存句柄（所有权）给他，他就可以处理下一个加减了。</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[rust的map count使用笔记]]></summary></entry><entry><title type="html">webRTC和peerjs实现</title><link href="/jekyll/update/2022/04/22/webRTC-peerjs.html" rel="alternate" type="text/html" title="webRTC和peerjs实现" /><published>2022-04-22T11:08:30+08:00</published><updated>2022-04-22T11:08:30+08:00</updated><id>/jekyll/update/2022/04/22/webRTC-peerjs</id><content type="html" xml:base="/jekyll/update/2022/04/22/webRTC-peerjs.html"><![CDATA[<h1 id="webrtc和peerjs实现">webRTC和peerjs实现</h1>
