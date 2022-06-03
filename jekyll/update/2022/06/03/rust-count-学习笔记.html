@@ -49,22 +49,20 @@
   <div class="post-content e-content" itemprop="articleBody">
     <h1 id="rust的map-count使用笔记">rust的map count使用笔记</h1>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-fn main() {
-            use std::collections::HashMap;
-         
-            let text = "hello world wonderful world";
-         
-            let mut map = HashMap::new();
-         
-            for word in text.split_whitespace() {
-                let count = map.entry(word).or_insert(0);
-                *count += 1;
-            }
-         
-            println!("{:?}", map);
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fn main() {
+        use std::collections::HashMap;
+     
+        let text = "hello world wonderful world";
+     
+        let mut map = HashMap::new();
+     
+        for word in text.split_whitespace() {
+            let count = map.entry(word).or_insert(0);
+            *count += 1;
+        }
+     
+        println!("{:?}", map);
 }
-
 </code></pre></div></div>
 
 <p>打印输出</p>
