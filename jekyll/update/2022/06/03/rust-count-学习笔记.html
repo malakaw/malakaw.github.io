@@ -49,30 +49,26 @@
   <div class="post-content e-content" itemprop="articleBody">
     <h1 id="rust的map-count使用笔记">rust的map count使用笔记</h1>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```
-	fn main() {
-        use std::collections::HashMap;
-     
-        let text = "hello world wonderful world";
-     
-        let mut map = HashMap::new();
-     
-        for word in text.split_whitespace() {
-            let count = map.entry(word).or_insert(0);
-            *count += 1;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>		fn main() {
+            use std::collections::HashMap;
+         
+            let text = "hello world wonderful world";
+         
+            let mut map = HashMap::new();
+         
+            for word in text.split_whitespace() {
+                let count = map.entry(word).or_insert(0);
+                *count += 1;
+            }
+         
+            println!("{:?}", map);
         }
-     
-        println!("{:?}", map);
-    }
 
-```
 </code></pre></div></div>
 
 <p>打印输出</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```
-{"world": 2, "wonderful": 1, "hello": 1}
-```
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	{"world": 2, "wonderful": 1, "hello": 1}
 </code></pre></div></div>
 
 <p>这里按照我们一般的编程习惯，没看到value从count赋值；原理是这样的，or_insert 方法返回这个键的值的一个可变引用（&amp;mut V）, count 获取到这个读写V, 整个map就把count包进来了，count有内存句柄了（所有权了），那么他就可以加1了，等下一个V又把内存句柄（所有权）给他，他就可以处理下一个加减了。</p>
